@@ -14,6 +14,9 @@
     /* border: solid; */
 }
 
+
+
+
 .info {
     display: flex;
     flex-direction: column;
@@ -110,13 +113,29 @@
     gap: 10px;
 }
 
-
+.content {
+    background: var(--color-white);
+    position: relative
+}
 
 .about {
     display: flex;
     padding: 50px 0 0 0;
     gap: 25px;
     border-bottom: none;
+}
+
+.about > .info > .field > p {
+    margin: 0;
+}
+
+.bio > .field:nth-child(2) {
+    margin: 25px 0;
+}
+
+.bio {
+    max-height: 0px;
+    transition: max-height 0.25s ease-in-out;
 }
 
 /* demo reels */

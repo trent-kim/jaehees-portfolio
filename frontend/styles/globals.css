@@ -7,6 +7,9 @@
   --color-red: #FE0002;
 }
 
+.inline-block {
+  display: inline-block
+}
 /* globals */
 html,
 body {

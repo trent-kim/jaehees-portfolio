@@ -5,7 +5,7 @@
 
 // frontend/pages/index.js
 
-import React, { useState, useEffect, useRef, createRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Link from "next/link";
@@ -16,9 +16,7 @@ import client from "../client";
 import imageUrlBuilder from "@sanity/image-url";
 import MuxPlayer from "@mux/mux-player-react";
 import styles from "@/styles/Home.module.css";
-import Layout, { siteTitle } from "../components/layout";
-import Reel from "../components/Reel";
-import About from "../components/About";
+import Layout from "../components/layout";
 
 function urlFor(source) {
   return imageUrlBuilder(client).image(source);
@@ -80,6 +78,7 @@ const Home = ({ projects, about, category, demoReels }) => {
   // /thumbnail + project blur
 
   // toggle about
+  const bioRef = useRef(null);
   const [toggle, setToggle] = useState(false);
 
   const handleButton = () => {
@@ -87,6 +86,7 @@ const Home = ({ projects, about, category, demoReels }) => {
     // if (window.innerWidth < 1000) {
     //   setToggle(false);
     // }
+    toggle ? (bioRef.current.style.maxHeight = '0px') : (bioRef.current.style.maxHeight ='500px');
   };
 
   useEffect(() => {
@@ -199,69 +199,53 @@ const Home = ({ projects, about, category, demoReels }) => {
                   components={ptComponents}
                 />
               </div>
-
-              {toggle ? (
-                <>
-                  <div className={styles.field}>
-                    <div className={styles.label}></div>
-                    <div>
-                      <PortableText
-                        style={{ width: "100%" }}
-                        value={about[0].bio}
-                        components={ptComponents}
-                      />
-                    </div>
+              <div className={styles.bio} ref={bioRef}>
+                <div className={styles.field}>
+                  <div className={styles.label}></div>
+                  <div>
+                    <PortableText
+                      style={{ width: "100%" }}
+                      value={about[0].bio}
+                      components={ptComponents}
+                    />
                   </div>
-                  <div className={styles.field}>
-                    <div className={styles.label}>Links</div>
-                    <p>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="mailto:jaehee9948@gmail.com"
-                      >
-                        Email
-                      </Link>
-                      <br></br>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://vimeo.com/jaeheecheong"
-                      >
-                        Vimeo
-                      </Link>
-                      <br></br>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://www.instagram.com/jhee_c218/?hl=en"
-                      >
-                        Instagram
-                      </Link>
-                      <br></br>
-                      <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href="https://drive.google.com/file/d/1M6iXqoMSbGpA1R7Jx2zqJcReLVLjqczc/view?usp=share_link"
-                      >
-                        Resume
-                      </Link>
-                    </p>
-                  </div>
-                </>
-              ) : (
-                ""
-              )}
-              <div className={styles.field}>
-                <div className={styles.label}></div>
-                <button
-                  className={styles.infoButton}
-                  onClick={() => {
-                    handleButton();
-                  }}
-                >
-                  {toggle ? "Less Info" : "More Info"}
-                </button>
+                </div>
+                <div className={styles.field}>
+                  <div className={styles.label}>Links</div>
+                  <p>
+                    <Link
+                      target="_blank"
+                      rel="noreferrer"
+                      href="mailto:jaehee9948@gmail.com"
+                    >
+                      Email
+                    </Link>
+                    <br></br>
+                    <Link
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://vimeo.com/jaeheecheong"
+                    >
+                      Vimeo
+                    </Link>
+                    <br></br>
+                    <Link
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://www.instagram.com/jhee_c218/?hl=en"
+                    >
+                      Instagram
+                    </Link>
+                    <br></br>
+                    <Link
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://drive.google.com/file/d/1M6iXqoMSbGpA1R7Jx2zqJcReLVLjqczc/view?usp=share_link"
+                    >
+                      Resume
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -282,7 +266,18 @@ const Home = ({ projects, about, category, demoReels }) => {
         >
           More Info
         </button> */}
-
+        <div className={styles.content}>
+              <div className={styles.field}>
+                <div className={styles.label}></div>
+                <button
+                  className={styles.infoButton}
+                  onClick={() => {
+                    handleButton();
+                  }}
+                >
+                  {toggle ? "Less Info" : "More Info"}
+                </button>
+              </div>
       <div className={styles.demoReelsContainer}>
         <div className={styles.field}>
           <div className={styles.label}>
@@ -316,6 +311,7 @@ const Home = ({ projects, about, category, demoReels }) => {
                 loop
                 muted
                 controls
+                key={playbackId}
                 ref={demoReelRef}
                 className={styles.reel}
                 playbackId={playbackId}
@@ -334,9 +330,9 @@ const Home = ({ projects, about, category, demoReels }) => {
             <div className={styles.field}>
               <div className={styles.label}>Filter</div>
               <div className={styles.tags}>
-                {category.map(({ _id, tag }, i) => (
+                {category.map(({ tag }, i) => (
                   <button 
-                    key={_id}
+                    key={tag}
                     ref={(element) => (categoryRef.current[i] = element)}
                     className={styles.filterButton}
                     onClick={() => {
@@ -353,10 +349,9 @@ const Home = ({ projects, about, category, demoReels }) => {
           {/* project cards */}
           {projects.length > 0 &&
             projects.map(({ _id, title, slug, year, categories }, i) => (
-              <div ref={(element) => (projectCardRef.current[i] = element)} className={styles.previewBorder}>
+              <div key={_id} ref={(element) => (projectCardRef.current[i] = element)} className={styles.previewBorder}>
                 <li
                   ref={(element) => (projectRef.current[i] = element)}
-                  key={_id}
                   className={styles.preview}
                   onMouseEnter={() => {
                     setImage(i);
@@ -379,7 +374,7 @@ const Home = ({ projects, about, category, demoReels }) => {
                       <div className={styles.label}>Category</div>
                       <h3>
                         {categories.map((category, i) =>
-                          i >= 1 ? <>, {category}</> : <>{category}</>
+                          <div key={category} className="inline-block"> {i >= 1 ?  `, ${category}` : `${category}` } </div> 
                         )}
                       </h3>
                     </div>
@@ -405,6 +400,7 @@ const Home = ({ projects, about, category, demoReels }) => {
             <div className={styles.thumbnailStack}>
               {projects.map(({ thumbnail }, i) => (
                 <img
+                  key={i}
                   ref={(element) => (thumbnailRef.current[i] = element)}
                   className={styles.thumbnail}
                   src={urlFor(thumbnail).url()}
@@ -416,11 +412,13 @@ const Home = ({ projects, about, category, demoReels }) => {
         {/* /thumbnail */}
       </div>
       {/* /projects */}
+      </div>
     </Layout>
   );
 };
 
 const projectQuery = groq`*[_type == 'project']{
+  _id,
   title,
   year,
   slug,

@@ -1,9 +1,18 @@
+// const Project = ({ project }) => {
+//   return (
+//     <>
+//     </>
+//   )
+// }
+
+// export default Project;
+
+
 // ./frontend/pages/project/[slug].js
 
 import groq from "groq";
 import imageUrlBuilder from "@sanity/image-url";
 import Head from "next/head";
-import Link from "next/link";
 import MuxPlayer from "@mux/mux-player-react";
 import { PortableText } from "@portabletext/react";
 import client from "../../client";
@@ -32,38 +41,29 @@ const ptComponents = {
 };
 
 const Project = ({ project }) => {
-  const {
-    title = "Missing title",
-    year = "Missing year",
-    categories,
-    description = [],
-    laurels,
-    playbackId,
-    images,
-  } = project;
 
   return (
     <Layout>
       <article>
         <Head>
-          <title>{title}</title>
+          <title>{project?.title}</title>
         </Head>
         <div className={styles.project}>
           <div className={styles.info}>
             <div className={styles.field}>
               <div className={styles.label}>Title</div>
-              <h1 className={styles.h1}>{title}</h1>
+              <h1 className={styles.h1}>{project?.title}</h1>
             </div>
             <div className="divider"></div>
             <div className={styles.field}>
               <div className={styles.label}>Year</div>
-              <h2 className={styles.h2}>{year}</h2>
+              <h2 className={styles.h2}>{project?.year}</h2>
             </div>
             <div className={styles.field}>
               <div className={styles.label}>Category</div>
               <h3>
-                {categories.map((category, i) =>
-                  i >= 1 ? <>, {category}</> : <>{category}</>
+                {project?.categories.map((category, i) =>
+                  <div key={category} className="inline-block"> {i >= 1 ?  `, ${category}` : `${category}` } </div> 
                 )}
               </h3>
             </div>
@@ -71,15 +71,15 @@ const Project = ({ project }) => {
             <div className={styles.field}>
               <div className={styles.label}>Description</div>
               <div className={styles.portableText}>
-                <PortableText value={description} components={ptComponents} />
+                <PortableText value={project?.description} components={ptComponents} />
               </div>
             </div>
-            {laurels &&
+            {project?.laurels &&
             <div className={styles.field}>
               <div className={styles.label}>Recognition</div>
               <div className={styles.laurelContainer}>
-                  {laurels.map((image) => (
-                    <img className={styles.laurel} src={urlFor(image).url()} />
+                  {project?.laurels.map((image) => (
+                    <img key={image._key} className={styles.laurel} src={urlFor(image).url()} />
                   ))}
               </div>
             </div>
@@ -106,13 +106,13 @@ const Project = ({ project }) => {
           <MuxPlayer
             controls
             className={styles.reel}
-            playbackId={playbackId}
-            metadata={{ video_title: title }}
+            playbackId={project?.playbackId}
+            // metadata={{ video_title: title }}
           />
         </div>
-        {images &&
-          images.map((image) => (
-            <div className={styles.mediaContainer}>
+        {project?.images &&
+          project?.images.map((image) => (
+            <div key={image._key} className={styles.mediaContainer}>
               <img className={styles.image} src={urlFor(image).url()} />
             </div>
           ))}
@@ -122,6 +122,7 @@ const Project = ({ project }) => {
 };
 
 const query = groq`*[_type == "project" && slug.current == $slug][0]{
+  _id,
   title,
   year,
   "categories": categories[]->tag,
@@ -152,10 +153,10 @@ export async function getStaticProps(context) {
   // It's important to default the slug so that it doesn't return "undefined"
   const { slug = "" } = context.params;
   const project = await client.fetch(query, { slug });
-
+ 
   return {
     props: {
-      project,
+      project
     },
   };
 }

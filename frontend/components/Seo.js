@@ -13,8 +13,8 @@ const Seo = () => {
       <meta itemProp="name" content="Jaehee Cheong"/>
       <meta name="application-name" content="Jaehee Cheong"/>
       <meta name="og:site_name" content="Jaehee Cheong"/> 
-      <link rel="icon" href='../public/favicon.ico'/>
-      <meta property="og:image" href="../public/share.png"/> 
+      <link rel="icon" href='http://jaehees-portfolio.vercel.app/favicon.ico'/>
+      <meta property="og:image" href="http://jaehees-portfolio.vercel.app/share.png"/> 
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="description" content="Jaehee Cheong is a filmmaker, animator, and photographer based in Brooklyn, NY." />
       <meta property="og:description" content="Jaehee Cheong is a filmmaker, animator, and photographer based in Brooklyn, NY."/>  

@@ -31,6 +31,8 @@
     border-bottom: solid;
 }
 
+
+
 .preview {
     display: flex;
     padding: 50px 0 50px 0;
@@ -197,6 +199,16 @@ margin-left: 57.7px;
     .demoReelsContainer > .field > .label {
         display: none;
     }
+
+    /* .demoReelsContainer > .field > .label {
+        display: flex;
+        justify-content: flex-end;
+        align-self: flex-end;
+        text-align: right;
+        font-size: 12px;
+        min-width: 75px;
+        padding-bottom: 50px;
+    } */
 
     .filter {
         padding: 25px 0px 25px 0;

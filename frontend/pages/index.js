@@ -1,22 +1,20 @@
-// import Head from 'next/head'
-// import Image from 'next/image'
-// import { Inter } from 'next/font/google'
-// import styles from '@/styles/Home.module.css'
-
 // frontend/pages/index.js
 
 import React, { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Link from "next/link";
-import Head from "next/head";
+// import Head from "next/head";
 import groq from "groq";
 import { PortableText } from "@portabletext/react";
-import client from "../client";
 import imageUrlBuilder from "@sanity/image-url";
 import MuxPlayer from "@mux/mux-player-react";
 import styles from "@/styles/Home.module.css";
 import Layout from "../components/layout";
+import { createClient } from "next-sanity";
+// import Seo from "../components/Seo";
+
+
 
 function urlFor(source) {
   return imageUrlBuilder(client).image(source);
@@ -139,7 +137,7 @@ const Home = ({ projects, about, category, demoReels }) => {
 
   const categoryRef = useRef({});
   const projectCardRef = useRef({});
-  console.log(categoryRef)
+  // console.log(categoryRef)
   
 
   const filterButton = (i) => {
@@ -184,9 +182,6 @@ const Home = ({ projects, about, category, demoReels }) => {
 
   return (
     <Layout home>
-      <Head>
-        <title>Jaehee Cheong</title>
-      </Head>
       {/* intro */}
       <div>
         <div className={styles.left}>
@@ -240,7 +235,7 @@ const Home = ({ projects, about, category, demoReels }) => {
                     <Link
                       target="_blank"
                       rel="noreferrer"
-                      href="https://drive.google.com/file/d/1M6iXqoMSbGpA1R7Jx2zqJcReLVLjqczc/view?usp=share_link"
+                      href=""
                     >
                       Resume
                     </Link>
@@ -281,7 +276,7 @@ const Home = ({ projects, about, category, demoReels }) => {
       <div className={styles.demoReelsContainer}>
         <div className={styles.field}>
           <div className={styles.label}>
-            Demo Reel<br></br>
+            Demo Reel {demoReels[currentIndex].title}<br></br>
             {currentIndex + 1}/{length}
           </div>
           <Carousel
@@ -311,9 +306,11 @@ const Home = ({ projects, about, category, demoReels }) => {
                 loop
                 muted
                 controls
+                autoPlay
                 key={playbackId}
                 ref={demoReelRef}
                 className={styles.reel}
+                streamType="on-demand"
                 playbackId={playbackId}
                 metadata={{ video_title: title }}
               />
@@ -416,6 +413,14 @@ const Home = ({ projects, about, category, demoReels }) => {
     </Layout>
   );
 };
+
+
+const client = createClient({
+  projectId: "el661cg1",
+  dataset: "production",
+  apiVersion: "2023-03-16",
+  useCdn: true
+});
 
 const projectQuery = groq`*[_type == 'project']{
   _id,

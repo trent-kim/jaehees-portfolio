@@ -15,9 +15,12 @@ import imageUrlBuilder from "@sanity/image-url";
 import Head from "next/head";
 import MuxPlayer from "@mux/mux-player-react";
 import { PortableText } from "@portabletext/react";
-import client from "../../client";
+// import client from "../../client";
 import styles from "@/styles/Project.module.css";
 import Layout from "../../components/layout";
+import Image from "next/image";
+import { createClient } from "next-sanity";
+
 
 function urlFor(source) {
   return imageUrlBuilder(client).image(source);
@@ -79,7 +82,11 @@ const Project = ({ project }) => {
               <div className={styles.label}>Recognition</div>
               <div className={styles.laurelContainer}>
                   {project?.laurels.map((image) => (
-                    <img key={image._key} className={styles.laurel} src={urlFor(image).url()} />
+                    <img 
+                    key={image._key} 
+                    className={styles.laurel} 
+                    src={urlFor(image).url()} 
+                    />
                   ))}
               </div>
             </div>
@@ -102,14 +109,17 @@ const Project = ({ project }) => {
             </div> */}
           </div>
         </div>
+        {project?.playbackId &&
         <div className={styles.mediaContainer}>
           <MuxPlayer
             controls
+            streamType="on-demand"
             className={styles.reel}
             playbackId={project?.playbackId}
             // metadata={{ video_title: title }}
           />
         </div>
+        }
         {project?.images &&
           project?.images.map((image) => (
             <div key={image._key} className={styles.mediaContainer}>
@@ -120,6 +130,14 @@ const Project = ({ project }) => {
     </Layout>
   );
 };
+
+
+const client = createClient({
+  projectId: "el661cg1",
+  dataset: "production",
+  apiVersion: "2023-03-16",
+  useCdn: true
+});
 
 const query = groq`*[_type == "project" && slug.current == $slug][0]{
   _id,

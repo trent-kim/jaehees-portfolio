@@ -5,7 +5,7 @@ import { Archivo } from 'next/font/google'
 import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import BackToTopButton from "../components/BackToTopButton";
-
+import Seo from "../components/Seo";
 
 const archivo = Archivo({
   weight: '400',
@@ -18,9 +18,7 @@ export const siteTitle = 'Jaehee Cheong';
 export default function Layout({ children, home}) {
     return (
         <div>
-            <Head>
-
-            </Head>
+            <Seo></Seo>
             <Nav></Nav>
             {!home && (
                 <div className={styles.back}>

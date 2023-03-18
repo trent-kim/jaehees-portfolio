@@ -72,6 +72,8 @@ a:hover {
 
 button {
   background: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-black);
   border: solid;
   border-radius: 5px;
   text-align: center;

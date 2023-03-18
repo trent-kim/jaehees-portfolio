@@ -109,6 +109,12 @@
     color: var(--color-white);
 }
 
+.filterButton:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
 .tags {
     display: flex;
     flex-wrap: wrap;
@@ -172,7 +178,6 @@
     margin-top: 25px;
     font-size: 12px;
 }
-
 
 
 .prevButton {

@@ -134,14 +134,14 @@ const Home = ({ projects, about, category, demoReels }) => {
   // /demo reels
 
 
-
+  // filter
   const categoryRef = useRef({});
   const projectCardRef = useRef({});
-  // console.log(categoryRef)
-  
+  let currentFilter = 0;
 
   const filterButton = (i) => {
     let match = false;
+    currentFilter = i;
     {categoryRef.current[i].innerText === 'All' ? (
       projects.map(({ categories }, l) => (
         projectCardRef.current[l].style.display = 'block'
@@ -168,17 +168,33 @@ const Home = ({ projects, about, category, demoReels }) => {
 
   };
 
+  const filterButtonEnter = (i) => {
+    categoryRef.current[i].style.background = 'var(--color-black)'
+    categoryRef.current[i].style.borderColor = 'var(--color-black)'
+    categoryRef.current[i].style.color = 'var(--color-white)'
+  }
+  const filterButtonLeave = (i) => {
+    categoryRef.current[i].style.background = 'var(--color-white)'
+    categoryRef.current[i].style.borderColor = 'var(--color-black)'
+    categoryRef.current[i].style.color = 'var(--color-black)'
+    // keep current filter selected
+    categoryRef.current[currentFilter].style.background = 'var(--color-black)'
+    categoryRef.current[currentFilter].style.borderColor = 'var(--color-black)'
+    categoryRef.current[currentFilter].style.color = 'var(--color-white)'
+  }
+
 
   const toggleFilterButton = (i) => {
     {category.map (({tag}, l) => (
       categoryRef.current[l].style.background = 'var(--color-white)',
-      categoryRef.current[i].style.borderColor = 'var(--color-black)',
+      categoryRef.current[l].style.borderColor = 'var(--color-black)',
       categoryRef.current[l].style.color = 'var(--color-black)'
     ))}
     categoryRef.current[i].style.background = 'var(--color-black)'
     categoryRef.current[i].style.borderColor = 'var(--color-black)'
     categoryRef.current[i].style.color = 'var(--color-white)'
   }
+  // /filter
 
   return (
     <Layout home>
@@ -335,6 +351,12 @@ const Home = ({ projects, about, category, demoReels }) => {
                     onClick={() => {
                       filterButton(i);
                     }}
+                    onMouseEnter={() => {
+                      filterButtonEnter(i);
+                    }}
+                    onMouseLeave={() => {
+                      filterButtonLeave(i);
+                    }}
                   >
                     {tag}
                   </button>
@@ -424,13 +446,14 @@ const client = createClient({
 
 const projectQuery = groq`*[_type == 'project']{
   _id,
+  _updatedAt,
   title,
   year,
   slug,
   "categories": categories[]->tag,
   thumbnail,
   images
-} | order(year desc)`;
+} | order(_updatedAt asc) | order(year desc)`;
 
 const aboutQuery = groq`*[_type == 'about']{
   title,

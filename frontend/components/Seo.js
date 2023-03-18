@@ -20,9 +20,9 @@ const Seo = () => {
       <meta property="og:description" content="Jaehee Cheong is a filmmaker, animator, and photographer based in Brooklyn, NY."/>  
       <meta property="og:locale" content="en_US"/>
       <meta property="og:type" content="website"/>
-      <meta property="og:url" content="https://jaeheecheong.com"/> 
-      <link rel="canonical" href="https://jaeheecheong.com"/> 
-      <meta name="theme-color" content="#FFFFFF"/> 
+      <meta property="og:url" content="https://jaehees-portfolio.vercel.app"/> 
+      <link rel="canonical" href="https://jaehees-portfolio.vercel.app"/> 
+      <meta name="theme-color" content="##F8F8F8"/> 
       <meta property="og:image:alt" content="Jaehee Cheong"/> 
       <meta name="robots" content="index,follow"/>
     </Head>

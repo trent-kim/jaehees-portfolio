@@ -29,9 +29,10 @@ export default function Layout({ children, home}) {
             <main className={archivo.className}>
                 
                 {children}
+                <Footer></Footer>
+                <BackToTopButton/>
             </main>
-            <Footer></Footer>
-            <BackToTopButton/>
+            
         </div>
     )
   }

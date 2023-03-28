@@ -4,8 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Link from "next/link";
-
-// import Head from "next/head";
 import groq from "groq";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
@@ -13,8 +11,6 @@ import MuxPlayer from "@mux/mux-player-react";
 import styles from "@/styles/Home.module.css";
 import Layout from "../components/layout";
 import { createClient } from "next-sanity";
-
-// import Seo from "../components/Seo";
 
 function urlFor(source) {
   return imageUrlBuilder(client).image(source);

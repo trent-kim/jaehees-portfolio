@@ -225,10 +225,15 @@ const Home = ({ projects, about, category, demoReels }) => {
                   <div className={styles.label}>Links</div>
                   <p>
                     {about[0].links.map((link) => (
-                        <Link key={link.url} target="_blank" rel="noreferrer" href={link.url}>
-                          {link.type}
-                          <br></br>
-                        </Link>
+                      <Link
+                        key={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        href={link.url}
+                      >
+                        {link.type}
+                        <br></br>
+                      </Link>
                     ))}
                   </p>
                 </div>

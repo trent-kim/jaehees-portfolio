@@ -1,13 +1,11 @@
 import groq from "groq";
 import React from "react";
 import Link from "next/link";
-// import { createClient } from "next-sanity";
 import styles from "@/styles/Footer.module.css";
 
-const Footer = ({ about }) => {
-//   console.log("about:", about);
+const Footer = ({ about = [] }) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.footerContainer}>
       <div className={styles.footer}>
         <div className={styles.info}>
           <div className={styles.field}>
@@ -36,12 +34,17 @@ const Footer = ({ about }) => {
           <div className={styles.field}>
             <div className={styles.label}>Contact</div>
             <p>
-              {about[0].links.map((link) =>
+              {about[0]?.links?.map((link) =>
                 link.type !== "Resume" ? (
-                    <Link key={link.url} target="_blank" rel="noreferrer" href={link.url}>
-                      {link.type}
-                      <br></br>
-                    </Link>
+                  <Link
+                    key={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    href={link.url}
+                  >
+                    {link.type}
+                    <br></br>
+                  </Link>
                 ) : (
                   ""
                 )

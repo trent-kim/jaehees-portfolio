@@ -5,7 +5,6 @@ import imageUrlBuilder from "@sanity/image-url";
 import Head from "next/head";
 import MuxPlayer from "@mux/mux-player-react";
 import { PortableText } from "@portabletext/react";
-// import client from "../../client";
 import styles from "@/styles/Project.module.css";
 import Layout from "../../components/layout";
 import Image from "next/image";
@@ -32,7 +31,11 @@ const ptComponents = {
   },
 };
 
-const Project = ({ project, about }) => {
+const Project = ({ project, about = [] }) => {
+  // console.log('about:', about)
+  // const {
+  //   links = []
+  // } = about[0]
   return (
     <Layout about={about}>
       <article>

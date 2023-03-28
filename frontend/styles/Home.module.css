@@ -95,7 +95,7 @@
 
 .projects {
     display: flex;
-    
+    padding-top: 50px;
 }
 
 .filter {
@@ -155,7 +155,7 @@
 
 /* demo reels */
 .demoReelsContainer {
-    margin: 100px 100px 75px 0;
+    margin: 100px 100px 25px 0;
 }
 
 .demoReelsContainer > .field > .label {

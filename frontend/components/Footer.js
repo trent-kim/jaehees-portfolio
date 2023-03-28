@@ -1,109 +1,80 @@
-import React from 'react';
-import Link from 'next/link'
-import styles from '@/styles/Footer.module.css'
+import groq from "groq";
+import React from "react";
+import Link from "next/link";
+// import { createClient } from "next-sanity";
+import styles from "@/styles/Footer.module.css";
 
-const Footer = () => {
-
-
-    return (
-        <div className={styles.container}>
-            <div className={styles.footer}>
-                <div className={styles.info}>
-                    <div className={styles.field}>
-                        <div className={styles.label}>Site by</div>
-                        <p className={styles.h1}>
-                        <Link
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://trentkim.com/"
-                    
-                        >
-                            Trent Kim
-                        </Link>
-                        </p>
-                    </div>
-                </div>
-                <div className={styles.info}>
-                    <div className={styles.field}>
-                        <div className={styles.label}>&#169;</div>
-                        <p className={styles.h1}>
-                            Jaehee Cheong 2023
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div className={styles.footer}>
-                <div className={styles.info}>
-                    <div className={styles.field}>
-                        <div className={styles.label}>Contact</div>
-                        <p className={styles.h1}>
-                        <Link
-                            target="_blank"
-                            rel="noreferrer"
-                            href="mailto:jaehee9948@gmail.com"
-                        >
-                        Email
-                        </Link>
-                        <br></br>
-                        <Link
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://vimeo.com/jaeheecheong"
-                        >
-                        Vimeo
-                        </Link>
-                        <br></br>
-                        <Link
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://www.instagram.com/jhee_c218/?hl=en"
-                        >
-                        Instagram
-                        </Link>
-                        </p>
-                    </div>
-                </div>
-            </div>
-                
-                {/* <Link
+const Footer = ({ about }) => {
+//   console.log("about:", about);
+  return (
+    <div className={styles.container}>
+      <div className={styles.footer}>
+        <div className={styles.info}>
+          <div className={styles.field}>
+            <div className={styles.label}>Site by</div>
+            <p className={styles.h1}>
+              <Link
                 target="_blank"
                 rel="noreferrer"
-                href="mailto:jaehee9948@gmail.com"
-                
-                >
-                <button>Email</button>
-                </Link>
-                
-                <Link
-                target="_blank"
-                rel="noreferrer"
-                href="https://vimeo.com/jaeheecheong"
-               
-                >
-                <button>Vimeo</button>
-                </Link>
-                <Link
-                target="_blank"
-                rel="noreferrer"
-                href="https://www.instagram.com/jhee_c218/?hl=en"
-                
-                >
-                <button>Instagram</button>
-                </Link>
-                <Link
-                target="_blank"
-                rel="noreferrer"
-                href="https://drive.google.com/file/d/1M6iXqoMSbGpA1R7Jx2zqJcReLVLjqczc/view?usp=share_link"
-                
-                >
-                <button>Resume</button>
-                </Link> */}
-
-       
+                href="https://trentkim.com/"
+              >
+                Trent Kim
+              </Link>
+            </p>
+          </div>
         </div>
+        <div className={styles.info}>
+          <div className={styles.field}>
+            <div className={styles.label}>&#169;</div>
+            <p className={styles.h1}>Jaehee Cheong 2023</p>
+          </div>
+        </div>
+      </div>
 
-    )
-}
+      <div className={styles.footer}>
+        <div className={styles.info}>
+          <div className={styles.field}>
+            <div className={styles.label}>Contact</div>
+            <p>
+              {about[0].links.map((link) =>
+                link.type !== "Resume" ? (
+                    <Link key={link.url} target="_blank" rel="noreferrer" href={link.url}>
+                      {link.type}
+                      <br></br>
+                    </Link>
+                ) : (
+                  ""
+                )
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default Footer
+// const client = createClient({
+//     projectId: "el661cg1",
+//     dataset: "production",
+//     apiVersion: "2023-03-16",
+//     useCdn: true
+// });
+
+// const aboutQuery = groq`*[_type == 'about']{
+//     title,
+//     introduction,
+//     bio,
+//     "links": links[]{type, url}
+// }`;
+
+// export async function getStaticProps() {
+//     const about = await client.fetch(aboutQuery);
+//     return {
+//         props: {
+//         about,
+//         },
+//     };
+// }
+
+export default Footer;

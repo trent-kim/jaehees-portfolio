@@ -1,13 +1,3 @@
-// const Project = ({ project }) => {
-//   return (
-//     <>
-//     </>
-//   )
-// }
-
-// export default Project;
-
-
 // ./frontend/pages/project/[slug].js
 
 import groq from "groq";
@@ -20,7 +10,6 @@ import styles from "@/styles/Project.module.css";
 import Layout from "../../components/layout";
 import Image from "next/image";
 import { createClient } from "next-sanity";
-
 
 function urlFor(source) {
   return imageUrlBuilder(client).image(source);
@@ -43,10 +32,9 @@ const ptComponents = {
   },
 };
 
-const Project = ({ project }) => {
-
+const Project = ({ project, about }) => {
   return (
-    <Layout>
+    <Layout about={about}>
       <article>
         <Head>
           <title>{project?.title}</title>
@@ -65,61 +53,54 @@ const Project = ({ project }) => {
             <div className={styles.field}>
               <div className={styles.label}>Category</div>
               <h3>
-                {project?.categories.map((category, i) =>
-                  <div key={category} className="inline-block"> {i >= 1 ?  `, ${category}` : `${category}` } </div> 
-                )}
+                {project?.categories.map((category, i) => (
+                  <div key={category} className="inline-block">
+                    {" "}
+                    {i >= 1 ? `, ${category}` : `${category}`}{" "}
+                  </div>
+                ))}
               </h3>
             </div>
             <div className="divider"></div>
             <div className={styles.field}>
               <div className={styles.label}>Description</div>
               <div className={styles.portableText}>
-                <PortableText value={project?.description} components={ptComponents} />
+                <PortableText
+                  value={project?.description}
+                  components={ptComponents}
+                />
               </div>
             </div>
-            {project?.laurels &&
-            <div className={styles.field}>
-              <div className={styles.label}>Recognition</div>
-              <div className={styles.laurelContainer}>
+            {project?.laurels && (
+              <div className={styles.field}>
+                <div className={styles.label}>Recognition</div>
+                <div className={styles.laurelContainer}>
                   {project?.laurels.map((image) => (
-                    <img 
-                    key={image._key} 
-                    className={styles.laurel} 
-                    src={urlFor(image).url()} 
+                    <Image
+                      key={image._key}
+                      className={styles.laurel}
+                      src={urlFor(image).url()}
+                      alt="Laurel"
+                      width={94}
+                      height={65}
                     />
                   ))}
+                </div>
               </div>
-            </div>
-            }
-
-            {/* <div className={styles.field}>
-              <div className={styles.label}></div>
-              <div className={styles.buttons}>
-                <Link href={``}>
-                  <button className={styles.button}>
-                    <span>Prev</span>
-                  </button>
-                </Link>{" "}
-                <Link href={``}>
-                  <button className={styles.button}>
-                    <span>Next</span>
-                  </button>
-                </Link>{" "}
-              </div>
-            </div> */}
+            )}
           </div>
         </div>
-        {project?.playbackId &&
-        <div className={styles.mediaContainer}>
-          <MuxPlayer
-            controls
-            streamType="on-demand"
-            className={styles.reel}
-            playbackId={project?.playbackId}
-            // metadata={{ video_title: title }}
-          />
-        </div>
-        }
+        {project?.playbackId && (
+          <div className={styles.mediaContainer}>
+            <MuxPlayer
+              controls
+              streamType="on-demand"
+              className={styles.reel}
+              playbackId={project?.playbackId}
+              // metadata={{ video_title: title }}
+            />
+          </div>
+        )}
         {project?.images &&
           project?.images.map((image) => (
             <div key={image._key} className={styles.mediaContainer}>
@@ -131,15 +112,14 @@ const Project = ({ project }) => {
   );
 };
 
-
 const client = createClient({
   projectId: "el661cg1",
   dataset: "production",
   apiVersion: "2023-03-16",
-  useCdn: true
+  useCdn: true,
 });
 
-const query = groq`*[_type == "project" && slug.current == $slug][0]{
+const projectQuery = groq`*[_type == "project" && slug.current == $slug][0]{
   _id,
   title,
   year,
@@ -150,11 +130,12 @@ const query = groq`*[_type == "project" && slug.current == $slug][0]{
   images
 }`;
 
-// const queryAll = groq`*[_type == 'project']`;
-
-// const currentPostIndex = projects.findIndex(project => project.slug === currentPost.slug);
-// const previousPost = projects[currentPostIndex - 1];
-// const nextPost = projects[currentPostIndex + 1];
+const aboutQuery = groq`*[_type == 'about']{
+  title,
+  introduction,
+  bio,
+  "links": links[]{type, url}
+}`;
 
 export async function getStaticPaths() {
   const paths = await client.fetch(
@@ -170,11 +151,13 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   // It's important to default the slug so that it doesn't return "undefined"
   const { slug = "" } = context.params;
-  const project = await client.fetch(query, { slug });
- 
+  const project = await client.fetch(projectQuery, { slug });
+  const about = await client.fetch(aboutQuery, { slug });
+
   return {
     props: {
-      project
+      project,
+      about,
     },
   };
 }

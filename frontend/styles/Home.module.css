@@ -29,6 +29,12 @@
 
 .previewBorder {
     border-bottom: solid;
+    text-decoration: none;
+    border-width: 1.5px;
+}
+
+.previewBorder:hover {
+    color: var(--color-black);
 }
 
 
@@ -99,6 +105,7 @@
     padding: 25px 100px 25px 0;
     gap: 25px;
     border-bottom: solid;
+    border-width: 1.5px;
     background: var(--color-white);
     z-index: 2;
 }

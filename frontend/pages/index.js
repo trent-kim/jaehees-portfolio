@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Link from "next/link";
+
 // import Head from "next/head";
 import groq from "groq";
 import { PortableText } from "@portabletext/react";
@@ -12,9 +13,8 @@ import MuxPlayer from "@mux/mux-player-react";
 import styles from "@/styles/Home.module.css";
 import Layout from "../components/layout";
 import { createClient } from "next-sanity";
+
 // import Seo from "../components/Seo";
-
-
 
 function urlFor(source) {
   return imageUrlBuilder(client).image(source);
@@ -84,7 +84,9 @@ const Home = ({ projects, about, category, demoReels }) => {
     // if (window.innerWidth < 1000) {
     //   setToggle(false);
     // }
-    toggle ? (bioRef.current.style.maxHeight = '0px') : (bioRef.current.style.maxHeight ='500px');
+    toggle
+      ? (bioRef.current.style.maxHeight = "0px")
+      : (bioRef.current.style.maxHeight = "500px");
   };
 
   useEffect(() => {
@@ -133,7 +135,6 @@ const Home = ({ projects, about, category, demoReels }) => {
 
   // /demo reels
 
-
   // filter
   const categoryRef = useRef({});
   const projectCardRef = useRef({});
@@ -142,62 +143,61 @@ const Home = ({ projects, about, category, demoReels }) => {
   const filterButton = (i) => {
     let match = false;
     currentFilter = i;
-    {categoryRef.current[i].innerText === 'All' ? (
-      projects.map(({ categories }, l) => (
-        projectCardRef.current[l].style.display = 'block'
-      ))
-    ) : (
-      projects.map(({ categories }, l) => (
-        // console.log('categories:', categories, 'categoryRef:', categoryRef.current[i].innerText)
-        <>
-        {categories.map((category) => (
-          category === categoryRef.current[i].innerText ? (
-              projectCardRef.current[l].style.display = 'block',
-              match = true
-            ) : (
-
-              !match && (projectCardRef.current[l].style.display = 'none')
-            )
-        )
-        )};
-        {match = false}
-        </>
-      ))
-    )}
+    {
+      categoryRef.current[i].innerText === "All"
+        ? projects.map(
+            ({ categories }, l) =>
+              (projectCardRef.current[l].style.display = "block")
+          )
+        : projects.map(({ categories }, l) => (
+            // console.log('categories:', categories, 'categoryRef:', categoryRef.current[i].innerText)
+            <>
+              {categories.map((category) =>
+                category === categoryRef.current[i].innerText
+                  ? ((projectCardRef.current[l].style.display = "block"),
+                    (match = true))
+                  : !match && (projectCardRef.current[l].style.display = "none")
+              )}
+              ;{(match = false)}
+            </>
+          ));
+    }
     toggleFilterButton(i);
-
   };
 
   const filterButtonEnter = (i) => {
-    categoryRef.current[i].style.background = 'var(--color-black)'
-    categoryRef.current[i].style.borderColor = 'var(--color-black)'
-    categoryRef.current[i].style.color = 'var(--color-white)'
-  }
+    categoryRef.current[i].style.background = "var(--color-black)";
+    categoryRef.current[i].style.borderColor = "var(--color-black)";
+    categoryRef.current[i].style.color = "var(--color-white)";
+  };
   const filterButtonLeave = (i) => {
-    categoryRef.current[i].style.background = 'var(--color-white)'
-    categoryRef.current[i].style.borderColor = 'var(--color-black)'
-    categoryRef.current[i].style.color = 'var(--color-black)'
+    categoryRef.current[i].style.background = "var(--color-white)";
+    categoryRef.current[i].style.borderColor = "var(--color-black)";
+    categoryRef.current[i].style.color = "var(--color-black)";
     // keep current filter selected
-    categoryRef.current[currentFilter].style.background = 'var(--color-black)'
-    categoryRef.current[currentFilter].style.borderColor = 'var(--color-black)'
-    categoryRef.current[currentFilter].style.color = 'var(--color-white)'
-  }
-
+    categoryRef.current[currentFilter].style.background = "var(--color-black)";
+    categoryRef.current[currentFilter].style.borderColor = "var(--color-black)";
+    categoryRef.current[currentFilter].style.color = "var(--color-white)";
+  };
 
   const toggleFilterButton = (i) => {
-    {category.map (({tag}, l) => (
-      categoryRef.current[l].style.background = 'var(--color-white)',
-      categoryRef.current[l].style.borderColor = 'var(--color-black)',
-      categoryRef.current[l].style.color = 'var(--color-black)'
-    ))}
-    categoryRef.current[i].style.background = 'var(--color-black)'
-    categoryRef.current[i].style.borderColor = 'var(--color-black)'
-    categoryRef.current[i].style.color = 'var(--color-white)'
-  }
+    {
+      category.map(
+        ({ tag }, l) => (
+          (categoryRef.current[l].style.background = "var(--color-white)"),
+          (categoryRef.current[l].style.borderColor = "var(--color-black)"),
+          (categoryRef.current[l].style.color = "var(--color-black)")
+        )
+      );
+    }
+    categoryRef.current[i].style.background = "var(--color-black)";
+    categoryRef.current[i].style.borderColor = "var(--color-black)";
+    categoryRef.current[i].style.color = "var(--color-white)";
+  };
   // /filter
 
   return (
-    <Layout home>
+    <Layout home about={about}>
       {/* intro */}
       <div>
         <div className={styles.left}>
@@ -224,37 +224,12 @@ const Home = ({ projects, about, category, demoReels }) => {
                 <div className={styles.field}>
                   <div className={styles.label}>Links</div>
                   <p>
-                    <Link
-                      target="_blank"
-                      rel="noreferrer"
-                      href="mailto:jaehee9948@gmail.com"
-                    >
-                      Email
-                    </Link>
-                    <br></br>
-                    <Link
-                      target="_blank"
-                      rel="noreferrer"
-                      href="https://vimeo.com/jaeheecheong"
-                    >
-                      Vimeo
-                    </Link>
-                    <br></br>
-                    <Link
-                      target="_blank"
-                      rel="noreferrer"
-                      href="https://www.instagram.com/jhee_c218/?hl=en"
-                    >
-                      Instagram
-                    </Link>
-                    <br></br>
-                    <Link
-                      target="_blank"
-                      rel="noreferrer"
-                      href=""
-                    >
-                      Resume
-                    </Link>
+                    {about[0].links.map((link) => (
+                        <Link key={link.url} target="_blank" rel="noreferrer" href={link.url}>
+                          {link.type}
+                          <br></br>
+                        </Link>
+                    ))}
                   </p>
                 </div>
               </div>
@@ -277,171 +252,177 @@ const Home = ({ projects, about, category, demoReels }) => {
         >
           More Info
         </button> */}
-        <div className={styles.content}>
-              <div className={styles.field}>
-                <div className={styles.label}></div>
-                <button
-                  className={styles.infoButton}
-                  onClick={() => {
-                    handleButton();
-                  }}
-                >
-                  {toggle ? "Less Info" : "More Info"}
-                </button>
-              </div>
-      <div className={styles.demoReelsContainer}>
+      <div className={styles.content}>
         <div className={styles.field}>
-          <div className={styles.label}>
-            Demo Reel {demoReels[currentIndex].title}<br></br>
-            {currentIndex + 1}/{length}
-          </div>
-          <Carousel
-            infiniteLoop
-            showArrows={false}
-            showThumbs={false}
-            showStatus={false}
-            showIndicators={false}
-            renderArrowPrev={(clickHandler) => {
-              return (
-                <div className={styles.prevButton} onClick={clickHandler}>
-                  <button onClick={prev}>Prev</button>
-                </div>
-              );
-            }}
-            renderArrowNext={(clickHandler) => {
-              return (
-                <div className={styles.nextButton} onClick={clickHandler}>
-                  <button onClick={next}>Next</button>
-                </div>
-              );
+          <div className={styles.label}></div>
+          <button
+            className={styles.infoButton}
+            onClick={() => {
+              handleButton();
             }}
           >
-            {demoReels.map(({ playbackId }) => (
-              <MuxPlayer
-                playsInline
-                loop
-                muted
-                controls
-                autoPlay
-                key={playbackId}
-                ref={demoReelRef}
-                className={styles.reel}
-                streamType="on-demand"
-                playbackId={playbackId}
-                metadata={{ video_title: title }}
-              />
-            ))}
-          </Carousel>
+            {toggle ? "Less Info" : "More Info"}
+          </button>
         </div>
-      </div>
+        <div className={styles.demoReelsContainer}>
+          <div className={styles.field}>
+            <div className={styles.label}>
+              Demo Reel {demoReels[currentIndex].title}
+              <br></br>
+              {currentIndex + 1}/{length}
+            </div>
+            <Carousel
+              infiniteLoop
+              showArrows={false}
+              showThumbs={false}
+              showStatus={false}
+              showIndicators={false}
+              renderArrowPrev={(clickHandler) => {
+                return (
+                  <div className={styles.prevButton} onClick={clickHandler}>
+                    <button onClick={prev}>Prev</button>
+                  </div>
+                );
+              }}
+              renderArrowNext={(clickHandler) => {
+                return (
+                  <div className={styles.nextButton} onClick={clickHandler}>
+                    <button onClick={next}>Next</button>
+                  </div>
+                );
+              }}
+            >
+              {demoReels.map(({ playbackId }) => (
+                <MuxPlayer
+                  playsInline
+                  loop
+                  muted
+                  controls
+                  autoPlay
+                  key={playbackId}
+                  ref={demoReelRef}
+                  className={styles.reel}
+                  streamType="on-demand"
+                  playbackId={playbackId}
+                  metadata={{ video_title: title }}
+                />
+              ))}
+            </Carousel>
+          </div>
+        </div>
 
-      {/* projects */}
-      <div id="projects" className={styles.projects}>
-        <div className={styles.left}>
-          {/* filter */}
-          <div className={styles.filter}>
-            <div className={styles.field}>
-              <div className={styles.label}>Filter</div>
-              <div className={styles.tags}>
-                {category.map(({ tag }, i) => (
-                  <button 
-                    key={tag}
-                    ref={(element) => (categoryRef.current[i] = element)}
-                    className={styles.filterButton}
-                    onClick={() => {
-                      filterButton(i);
-                    }}
+        {/* projects */}
+        <div id="projects" className={styles.projects}>
+          <div className={styles.left}>
+            {/* filter */}
+            <div className={styles.filter}>
+              <div className={styles.field}>
+                <div className={styles.label}>Filter</div>
+                <div className={styles.tags}>
+                  {category.map(({ tag }, i) => (
+                    <button
+                      key={tag}
+                      ref={(element) => (categoryRef.current[i] = element)}
+                      className={styles.filterButton}
+                      onClick={() => {
+                        filterButton(i);
+                      }}
+                      onMouseEnter={() => {
+                        filterButtonEnter(i);
+                      }}
+                      onMouseLeave={() => {
+                        filterButtonLeave(i);
+                      }}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* /filter */}
+            {/* project cards */}
+            {projects.length > 0 &&
+              projects.map(({ _id, title, slug, year, categories }, i) => (
+                <Link
+                  key={_id}
+                  ref={(element) => (projectCardRef.current[i] = element)}
+                  className={styles.previewBorder}
+                  href={`/project/${encodeURIComponent(slug.current)}`}
+                >
+                  <li
+                    ref={(element) => (projectRef.current[i] = element)}
+                    className={styles.preview}
                     onMouseEnter={() => {
-                      filterButtonEnter(i);
+                      setImage(i);
                     }}
                     onMouseLeave={() => {
-                      filterButtonLeave(i);
+                      resetImage(i);
                     }}
                   >
-                    {tag}
-                  </button>
+                    <div className={styles.info}>
+                      <div className={styles.field}>
+                        <div className={styles.label}>Title</div>
+                        <h1 className={styles.h1}>{title}</h1>
+                      </div>
+                      <div className="divider"></div>
+                      <div className={styles.field}>
+                        <div className={styles.label}>Year</div>
+                        <h2 className={styles.h2}>{year}</h2>
+                      </div>
+                      <div className={styles.field}>
+                        <div className={styles.label}>Category</div>
+                        <h3>
+                          {categories.map((category, i) => (
+                            <div key={category} className="inline-block">
+                              {" "}
+                              {i >= 1 ? `, ${category}` : `${category}`}{" "}
+                            </div>
+                          ))}
+                        </h3>
+                      </div>
+                      {/* <div className={styles.field}>
+                      <div className={styles.label}></div>
+                      
+                        <button className={styles.button}>
+                          <span>See Project</span>
+                        </button>
+                     
+                    </div> */}
+                    </div>
+                  </li>
+                </Link>
+              ))}
+            {/* /project cards */}
+          </div>
+          {/* thumbnail */}
+          <div className={styles.right}>
+            <div className={styles.thumbnailContainer}>
+              <div className={styles.thumbnailStack}>
+                {projects.map(({ thumbnail }, i) => (
+                  <img
+                    key={i}
+                    ref={(element) => (thumbnailRef.current[i] = element)}
+                    className={styles.thumbnail}
+                    src={urlFor(thumbnail).url()}
+                  />
                 ))}
               </div>
             </div>
           </div>
-          {/* /filter */}
-          {/* project cards */}
-          {projects.length > 0 &&
-            projects.map(({ _id, title, slug, year, categories }, i) => (
-              <div key={_id} ref={(element) => (projectCardRef.current[i] = element)} className={styles.previewBorder}>
-                <li
-                  ref={(element) => (projectRef.current[i] = element)}
-                  className={styles.preview}
-                  onMouseEnter={() => {
-                    setImage(i);
-                  }}
-                  onMouseLeave={() => {
-                    resetImage(i);
-                  }}
-                >
-                  <div className={styles.info}>
-                    <div className={styles.field}>
-                      <div className={styles.label}>Title</div>
-                      <h1 className={styles.h1}>{title}</h1>
-                    </div>
-                    <div className="divider"></div>
-                    <div className={styles.field}>
-                      <div className={styles.label}>Year</div>
-                      <h2 className={styles.h2}>{year}</h2>
-                    </div>
-                    <div className={styles.field}>
-                      <div className={styles.label}>Category</div>
-                      <h3>
-                        {categories.map((category, i) =>
-                          <div key={category} className="inline-block"> {i >= 1 ?  `, ${category}` : `${category}` } </div> 
-                        )}
-                      </h3>
-                    </div>
-                    <div className={styles.field}>
-                      <div className={styles.label}></div>
-                      <Link
-                        href={`/project/${encodeURIComponent(slug.current)}`}
-                      >
-                        <button className={styles.button}>
-                          <span>See Project</span>
-                        </button>
-                      </Link>{" "}
-                    </div>
-                  </div>
-                </li>
-              </div>
-            ))}
-          {/* /project cards */}
+          {/* /thumbnail */}
         </div>
-        {/* thumbnail */}
-        <div className={styles.right}>
-          <div className={styles.thumbnailContainer}>
-            <div className={styles.thumbnailStack}>
-              {projects.map(({ thumbnail }, i) => (
-                <img
-                  key={i}
-                  ref={(element) => (thumbnailRef.current[i] = element)}
-                  className={styles.thumbnail}
-                  src={urlFor(thumbnail).url()}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-        {/* /thumbnail */}
-      </div>
-      {/* /projects */}
+        {/* /projects */}
       </div>
     </Layout>
   );
 };
 
-
 const client = createClient({
   projectId: "el661cg1",
   dataset: "production",
   apiVersion: "2023-03-16",
-  useCdn: true
+  useCdn: true,
 });
 
 const projectQuery = groq`*[_type == 'project']{
@@ -458,7 +439,8 @@ const projectQuery = groq`*[_type == 'project']{
 const aboutQuery = groq`*[_type == 'about']{
   title,
   introduction,
-  bio
+  bio,
+  "links": links[]{type, url}
 }`;
 
 const categoryQuery = groq`*[_type == 'category']{

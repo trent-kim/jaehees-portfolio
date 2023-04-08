@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Link from "next/link";
+import Image from "next/image";
 import groq from "groq";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
@@ -401,11 +402,18 @@ const Home = ({ projects, about, category, demoReels }) => {
             <div className={styles.thumbnailContainer}>
               <div className={styles.thumbnailStack}>
                 {projects.map(({ thumbnail }, i) => (
-                  <img
+                  <Image
                     key={i}
                     ref={(element) => (thumbnailRef.current[i] = element)}
                     className={styles.thumbnail}
                     src={urlFor(thumbnail).url()}
+                    width={1000}
+                    height={1000}
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                    }}
+                    alt=""
                   />
                 ))}
               </div>

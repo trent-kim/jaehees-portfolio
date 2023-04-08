@@ -107,7 +107,17 @@ const Project = ({ project, about = [] }) => {
         {project?.images &&
           project?.images.map((image) => (
             <div key={image._key} className={styles.mediaContainer}>
-              <img className={styles.image} src={urlFor(image).url()} />
+              <Image 
+                className={styles.image} 
+                src={urlFor(image).url()}
+                width={1000}
+                height={1000}
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                }}
+                alt="" 
+              />
             </div>
           ))}
       </article>

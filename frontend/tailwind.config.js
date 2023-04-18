@@ -27,11 +27,11 @@ module.exports = {
       },
     },
     spacing: {
-      xs: '10px',
-      sm: '25px',
-      md: '50px',
-      lg: '75px',
-      xl: '100px',
+      xs: '12px',
+      sm: '24px',
+      md: '48px',
+      lg: '72px',
+      xl: '96px',
     }
   },
   plugins: [],

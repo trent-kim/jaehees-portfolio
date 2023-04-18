@@ -136,7 +136,7 @@ const projectQuery = groq`*[_type == 'project']{
   "categories": categories[]->tag,
   thumbnail,
   images
-} | order(_updatedAt asc) | order(year desc)`;
+} | order(_updatedAt desc) | order(year desc)`;
 
 const aboutQuery = groq`*[_type == 'about']{
   title,

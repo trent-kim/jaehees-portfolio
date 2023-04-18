@@ -29,7 +29,7 @@ const Home = ({ projects, about, categories, demoReels }) => {
       {/* intro */}
       <div>
         <div className="flex flex-col w-full xl:w-1/2 ">
-          <div className="flex pt-md gap-sm">
+          <div className="flex pt-[61px] gap-sm">
             <div className="flex flex-col items-start gap-sm w-full mr-[0px] sm:mr-[96px]">
               <Field>
                 <Label></Label>

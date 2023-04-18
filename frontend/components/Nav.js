@@ -22,7 +22,7 @@ const Nav = ({ home }) => {
         ></div>
       </Link>
       {!home && (
-        <div className="flex fixed items-center z-30 h-md ml-[113px]">
+        <div className="flex fixed items-center z-30 h-md ml-lg sm:ml-[108px]">
           <Link href="/#projects">
             <button className="font-sans text-xs text-black hover:text-white bg-white hover:bg-black border-2 rounded-[5px] border-black text-center px-[12px] py-[5px]">
               Back

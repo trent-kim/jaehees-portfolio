@@ -59,7 +59,7 @@ const Project = ({ project, about = [] }) => {
                 {project?.laurels.map((image) => (
                   <Image
                     key={image._key}
-                    className="w-[calc((1/4*100%)-8px)] md:w-[calc((1/6*100%)-9px)] lg:w-[calc((1/8*100%)-9px)] xl:w-[calc((1/6*100%)-9px)] h-auto"
+                    className="w-[calc((1/4*100%)-9px)] md:w-[calc((1/6*100%)-10px)] lg:w-[calc((1/8*100%)-11px)] xl:w-[calc((1/6*100%)-10px)] h-auto"
                     src={urlFor(image).url()}
                     alt="Laurel"
                     width={100}

@@ -9,7 +9,6 @@ export default function Layout({ children, home, about }) {
 
       <main className="px-xs pt-xs">
         {children}
-
         <BackToTopButton />
       </main>
       <Footer about={about}></Footer>

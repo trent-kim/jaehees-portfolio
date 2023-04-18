@@ -1,19 +1,108 @@
 // ./frontend/pages/project/[slug].js
-
 import groq from "groq";
 import imageUrlBuilder from "@sanity/image-url";
 import Head from "next/head";
 import MuxPlayer from "@mux/mux-player-react";
 import { PortableText } from "@portabletext/react";
-import styles from "@/styles/Project.module.css";
 import Layout from "../../components/layout";
 import Image from "next/image";
 import { createClient } from "next-sanity";
 
+import Info from "@/components/Info";
+import Field from "@/components/Field";
+import Label from "@/components/Label";
+import GreenDivider from "@/components/GreenDivider";
+import RedDivider from "@/components/RedDivider";
+
+const Project = ({ project, about = [] }) => {
+  return (
+    <Layout about={about}>
+      <Head>
+        <title>{project?.title}</title>
+      </Head>
+      <div className="flex pt-md pb-lg gap-sm w-full xl:w-1/2">
+        <Info>
+          <Field>
+            <Label>Title</Label>
+            <h1 className="font-sans text-xl text-black">{project?.title}</h1>
+          </Field>
+          <GreenDivider />
+          <Field>
+            <Label>Year</Label>
+            <h2 className="font-sans text-lg text-black">{project?.year}</h2>
+          </Field>
+          <Field>
+            <Label>Category</Label>
+            <h3 className="font-sans text-md text-black flex flex-wrap">
+              {project?.categories.map((category, i) => (
+                <div key={category} className="group/item flex">
+                  {i >= 1 ? `${category}` : `${category}`}
+                  <div className="group-last/item:hidden">,&nbsp;</div>
+                </div>
+              ))}
+            </h3>
+          </Field>
+          <RedDivider />
+          <Field>
+            <Label>Description</Label>
+            <div className="font-sans text-sm text-black">
+              <PortableText
+                value={project?.description}
+                components={ptComponents}
+              />
+            </div>
+          </Field>
+          {project?.laurels && (
+            <Field>
+              <Label>Recognition</Label>
+              <div className="flex flex-wrap gap-xs">
+                {project?.laurels.map((image) => (
+                  <Image
+                    key={image._key}
+                    className="w-[calc((1/4*100%)-8px)] md:w-[calc((1/6*100%)-9px)] lg:w-[calc((1/8*100%)-9px)] xl:w-[calc((1/6*100%)-9px)] h-auto"
+                    src={urlFor(image).url()}
+                    alt="Laurel"
+                    width={100}
+                    height={100}
+                  />
+                ))}
+              </div>
+            </Field>
+          )}
+        </Info>
+      </div>
+      {project?.playbackId && (
+        <div className="my-sm mx-[0px] sm:mx-xl">
+          <MuxPlayer
+            controls
+            streamType="on-demand"
+            playbackId={project?.playbackId}
+            // metadata={{ video_title: title }}
+          />
+        </div>
+      )}
+      {project?.images &&
+        project?.images.map((image) => (
+          <div key={image._key} className="my-sm mx-[0px] sm:mx-xl">
+            <Image
+              className="w-full h-auto"
+              src={urlFor(image).url()}
+              width={1000}
+              height={1000}
+              alt=""
+            />
+          </div>
+        ))}
+    </Layout>
+  );
+};
+
+// image url builder
 function urlFor(source) {
   return imageUrlBuilder(client).image(source);
 }
 
+// portable text
 const ptComponents = {
   types: {
     image: ({ value }) => {
@@ -31,100 +120,7 @@ const ptComponents = {
   },
 };
 
-const Project = ({ project, about = [] }) => {
-  // console.log('about:', about)
-  // const {
-  //   links = []
-  // } = about[0]
-  return (
-    <Layout about={about}>
-      <article>
-        <Head>
-          <title>{project?.title}</title>
-        </Head>
-        <div className={styles.project}>
-          <div className={styles.info}>
-            <div className={styles.field}>
-              <div className={styles.label}>Title</div>
-              <h1 className={styles.h1}>{project?.title}</h1>
-            </div>
-            <div className="divider"></div>
-            <div className={styles.field}>
-              <div className={styles.label}>Year</div>
-              <h2 className={styles.h2}>{project?.year}</h2>
-            </div>
-            <div className={styles.field}>
-              <div className={styles.label}>Category</div>
-              <h3>
-                {project?.categories.map((category, i) => (
-                  <div key={category} className="inline-block">
-                    {" "}
-                    {i >= 1 ? `, ${category}` : `${category}`}{" "}
-                  </div>
-                ))}
-              </h3>
-            </div>
-            <div className="divider"></div>
-            <div className={styles.field}>
-              <div className={styles.label}>Description</div>
-              <div className={styles.portableText}>
-                <PortableText
-                  value={project?.description}
-                  components={ptComponents}
-                />
-              </div>
-            </div>
-            {project?.laurels && (
-              <div className={styles.field}>
-                <div className={styles.label}>Recognition</div>
-                <div className={styles.laurelContainer}>
-                  {project?.laurels.map((image) => (
-                    <Image
-                      key={image._key}
-                      className={styles.laurel}
-                      src={urlFor(image).url()}
-                      alt="Laurel"
-                      width={94}
-                      height={65}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        {project?.playbackId && (
-          <div className={styles.mediaContainer}>
-            <MuxPlayer
-              controls
-              streamType="on-demand"
-              className={styles.reel}
-              playbackId={project?.playbackId}
-              // metadata={{ video_title: title }}
-            />
-          </div>
-        )}
-        {project?.images &&
-          project?.images.map((image) => (
-            <div key={image._key} className={styles.mediaContainer}>
-              <Image 
-                className={styles.image} 
-                src={urlFor(image).url()}
-                width={1000}
-                height={1000}
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                }}
-                alt="" 
-              />
-            </div>
-          ))}
-      </article>
-    </Layout>
-  );
-};
-
+// sanity client
 const client = createClient({
   projectId: "el661cg1",
   dataset: "production",
@@ -132,6 +128,7 @@ const client = createClient({
   useCdn: true,
 });
 
+// queries
 const projectQuery = groq`*[_type == "project" && slug.current == $slug][0]{
   _id,
   title,

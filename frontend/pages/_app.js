@@ -1,9 +1,11 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
 import { Archivo } from "next/font/google";
+
+import Seo from "../components/Seo";
 
 // Typefaces
 const archivo = Archivo({
-  weight: "400",
+  weight: "500",
   style: ["normal", "italic"],
   subsets: ["latin"],
 });
@@ -11,14 +13,15 @@ const archivo = Archivo({
 export default function App({ Component, pageProps }) {
   return (
     <>
-    <style jsx global>
+      <Seo></Seo>
+      <style jsx global>
         {`
           :root {
             --archivo-font: ${archivo.style.fontFamily};
           }
         `}
       </style>
-    <Component {...pageProps} />
+      <Component {...pageProps} />
     </>
-  )
+  );
 }

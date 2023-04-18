@@ -1,16 +1,37 @@
-import groq from "groq";
 import React from "react";
 import Link from "next/link";
-import styles from "@/styles/Footer.module.css";
+
+import Info from "@/components/Info";
+import Field from "@/components/Field";
+import Label from "@/components/Label";
 
 const Footer = ({ about = [] }) => {
   return (
-    <div className={styles.footerContainer}>
-      <div className={styles.footer}>
-        <div className={styles.info}>
-          <div className={styles.field}>
-            <div className={styles.label}>Site by</div>
-            <p className={styles.h1}>
+    <div className="flex absolute w-full px-xs">
+      <div className="flex flex-col pt-xl pb-xs gap-sm">
+        <Info>
+          <Field>
+            <Label>Links</Label>
+            <p className="font-sans text-sm text-black">
+              {about[0]?.links?.map((link) => (
+                <Link
+                  key={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  href={link.url}
+                >
+                  {link.type}
+                  <br></br>
+                </Link>
+              ))}
+            </p>
+          </Field>
+        </Info>
+        <div className="hidden sm:block">
+        <Info>
+          <Field>
+            <Label>Site by</Label>
+            <p className="font-sans text-sm text-black">
               <Link
                 target="_blank"
                 rel="noreferrer"
@@ -19,65 +40,20 @@ const Footer = ({ about = [] }) => {
                 Trent Kim
               </Link>
             </p>
-          </div>
+          </Field>
+        </Info>
         </div>
-        <div className={styles.info}>
-          <div className={styles.field}>
-            <div className={styles.label}>&#169;</div>
-            <p className={styles.h1}>Jaehee Cheong 2023</p>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.footer}>
-        <div className={styles.info}>
-          <div className={styles.field}>
-            <div className={styles.label}>Contact</div>
-            <p>
-              {about[0]?.links?.map((link) =>
-                link.type !== "Resume" ? (
-                  <Link
-                    key={link.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    href={link.url}
-                  >
-                    {link.type}
-                    <br></br>
-                  </Link>
-                ) : (
-                  ""
-                )
-              )}
+        <Info>
+          <Field>
+            <Label>Copyright</Label>
+            <p className="font-sans text-sm text-black">
+              &#169; 2023 Jaehee Cheong
             </p>
-          </div>
-        </div>
+          </Field>
+        </Info>
       </div>
     </div>
   );
 };
-
-// const client = createClient({
-//     projectId: "el661cg1",
-//     dataset: "production",
-//     apiVersion: "2023-03-16",
-//     useCdn: true
-// });
-
-// const aboutQuery = groq`*[_type == 'about']{
-//     title,
-//     introduction,
-//     bio,
-//     "links": links[]{type, url}
-// }`;
-
-// export async function getStaticProps() {
-//     const about = await client.fetch(aboutQuery);
-//     return {
-//         props: {
-//         about,
-//         },
-//     };
-// }
 
 export default Footer;

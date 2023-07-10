@@ -88,10 +88,8 @@ const DemoReels = ({ demoReels }) => {
         >
           {demoReels.map(({ playbackId }) => (
             <MuxPlayer
-              // playsInline
               loop
               muted
-              controls
               autoPlay
               key={playbackId}
               ref={demoReelRef}

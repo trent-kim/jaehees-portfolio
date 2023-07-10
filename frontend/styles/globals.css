@@ -35,4 +35,9 @@ a:hover {
 mux-player {
   --playback-rate-button: none;
   --pip-button: none;
+  --mute-button: none;
+  --volume-range: none;
+  --seek-backward-button: none;
+  --seek-forward-button: none;
+  --center-controls: none;
 }

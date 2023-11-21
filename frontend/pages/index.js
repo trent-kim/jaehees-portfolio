@@ -26,69 +26,6 @@ const Home = ({ projects, about, categories, demoReels, page, setPage }) => {
 
   return (
     <Layout home about={about} page={page} setPage={setPage}>
-      {/* intro */}
-      {/* <div>
-        <div className="flex flex-col w-full xl:w-1/2 ">
-          <div className="flex pt-[61px] gap-sm">
-            <div className="flex flex-col items-start gap-sm w-full mr-[0px] sm:mr-[96px]">
-              <Field>
-                <Label></Label>
-                <div className="font-sans text-sm text-black">
-                  <PortableText
-                    value={about[0].introduction}
-                    components={ptComponents}
-                  />
-                </div>
-              </Field>
-              <div
-                className="flex flex-col gap-sm max-h-[0px] transition-max-h ease-in-out duration-[0.25s]"
-                ref={bioRef}
-              >
-                <Field>
-                  <Label></Label>
-                  <div className="font-sans text-sm text-black">
-                    <PortableText
-                      value={about[0].bio}
-                      components={ptComponents}
-                    />
-                  </div>
-                </Field>
-                <Field>
-                  <Label>Links</Label>
-                  <p className="font-sans text-sm text-black pb-sm">
-                    {about[0].links.map((link) => (
-                      <Link
-                        key={link.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        href={link.url}
-                      >
-                        {link.type}
-                        <br></br>
-                      </Link>
-                    ))}
-                  </p>
-                </Field>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="w-[0px] xl:w-1/2"></div>
-      </div> */}
-      {/* /intro */}
-
-      {/* <div className="relative bg-white"> */}
-        {/* <Field>
-          <Label></Label>
-          <button
-            className="font-sans text-xs text-black hover:text-white bg-white hover:bg-black border-2 rounded-[5px] border-black text-center px-[12px] py-[5px]"
-            onClick={() => {
-              handleButton();
-            }}
-          >
-            {toggle ? "Less Info" : "More Info"}
-          </button>
-        </Field> */}
         <DemoReels demoReels={demoReels}></DemoReels>
         <FeaturedWork
           projects={projects}

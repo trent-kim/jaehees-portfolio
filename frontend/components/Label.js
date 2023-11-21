@@ -2,7 +2,7 @@ import React from "react";
 
 const Label = ({ children }) => {
   return (
-    <div className="font-sans text-right text-xs text-black min-w-[75px] hidden sm:block">
+    <div className="font-mono text-xs text-grey md:flex col-span-1 justify-start pb-xs md:pb-[0px]">
       {children}
     </div>
   );

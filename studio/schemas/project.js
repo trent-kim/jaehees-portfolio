@@ -24,7 +24,20 @@ export default defineType({
       title: 'Year',
       type: 'string',
     }),
-
+    defineField({
+      name: 'date',
+      title: 'Date',
+      type: 'date',
+      options: {
+          dateFormat: 'M-YYYY',
+      },
+    }),
+    defineField({
+      name: 'isFeatured',
+      title: 'Featured Work',
+      type: 'boolean',
+      initialValue: false,
+    }),
     defineField({
       name: 'categories',
       title: 'Categories',

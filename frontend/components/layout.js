@@ -1,17 +1,15 @@
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
+import Nav from "../components/Nav2";
+import Footer from "../components/Footer2";
 import BackToTopButton from "../components/BackToTopButton";
 
-export default function Layout({ children, home, about }) {
+export default function Layout({ children, home, about, page, setPage }) {
   return (
-    <div>
-      <Nav home={home}></Nav>
+    <main className="">
+      <Nav home={home} page={page} setPage={setPage}></Nav>
 
-      <main className="px-xs pt-xs">
         {children}
-        <BackToTopButton />
-      </main>
+        {/* <BackToTopButton /> */}
       <Footer about={about}></Footer>
-    </div>
+    </main>
   );
 }

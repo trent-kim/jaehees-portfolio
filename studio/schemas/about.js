@@ -45,15 +45,6 @@ export default defineType({
                 type: 'string',
               }),
               defineField({
-                name: 'slug',
-                title: 'Slug',
-                type: 'slug',
-                options: {
-                  source: 'type',
-                  maxLength: 96,
-                },
-              }),
-              defineField({
                   name: 'url',
                   title: 'URL',
                   type: 'url',
@@ -64,7 +55,94 @@ export default defineType({
               ],
           }
       ],
-  }),
+    }),
+    defineField({
+      name: 'experience',
+      title: 'Experience',
+      type: 'array',
+      of: [
+          {
+            name: 'work',
+            title: 'Work',
+            type: 'document',
+            fields: [
+              defineField({
+                name: 'name',
+                title: 'Name',
+                type: 'string',
+              }),
+              defineField({
+                  name: 'url',
+                  title: 'URL',
+                  type: 'url',
+              }),
+              ],
+          }
+      ],
+    }),
+    defineField({
+      name: 'recognition',
+      title: 'Recognition',
+      type: 'array',
+      of: [
+          {
+            name: 'recognizedBy',
+            title: 'Recognized By',
+            type: 'document',
+            fields: [
+              defineField({
+                name: 'name',
+                title: 'Name',
+                type: 'string',
+              }),
+              defineField({
+                name: 'film',
+                title: 'Film',
+                type: 'string',
+              }),
+              defineField({
+                name: 'year',
+                title: 'Year',
+                type: 'string',
+              }),
+              ],
+          }
+      ],
+    }),
+    defineField({
+      name: 'education',
+      title: 'Education',
+      type: 'array',
+      of: [
+          {
+            name: 'school',
+            title: 'School',
+            type: 'document',
+            fields: [
+              defineField({
+                name: 'name',
+                title: 'Name',
+                type: 'string',
+              }),
+              defineField({
+                name: 'url',
+                title: 'URL',
+                type: 'url',
+              }),
+              defineField({
+                  name: 'degree',
+                  title: 'Degree',
+                  type: 'string',
+              }),
+              defineField({
+                name: 'year',
+                title: 'Year',
+                type: 'string',
+              }),
+              ],
+          }
+      ],
+    }),
   ],
   preview: {
     select: {

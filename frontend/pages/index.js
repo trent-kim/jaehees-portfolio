@@ -8,10 +8,10 @@ import { createClient } from "next-sanity";
 import Layout from "../components/layout";
 import Field from "../components/Field";
 import Label from "../components/Label";
-import DemoReels from "../components/DemoReels";
-import ProjectCards from "../components/ProjectCards";
+import DemoReels from "../components/DemoReels2";
+import FeaturedWork from "../components/FeaturedWork";
 
-const Home = ({ projects, about, categories, demoReels }) => {
+const Home = ({ projects, about, categories, demoReels, page, setPage }) => {
   // toggle about
   const bioRef = useRef(null);
   const [toggle, setToggle] = useState(false);
@@ -25,9 +25,9 @@ const Home = ({ projects, about, categories, demoReels }) => {
   };
 
   return (
-    <Layout home about={about}>
+    <Layout home about={about} page={page} setPage={setPage}>
       {/* intro */}
-      <div>
+      {/* <div>
         <div className="flex flex-col w-full xl:w-1/2 ">
           <div className="flex pt-[61px] gap-sm">
             <div className="flex flex-col items-start gap-sm w-full mr-[0px] sm:mr-[96px]">
@@ -74,11 +74,11 @@ const Home = ({ projects, about, categories, demoReels }) => {
           </div>
         </div>
         <div className="w-[0px] xl:w-1/2"></div>
-      </div>
+      </div> */}
       {/* /intro */}
 
-      <div className="relative bg-white">
-        <Field>
+      {/* <div className="relative bg-white"> */}
+        {/* <Field>
           <Label></Label>
           <button
             className="font-sans text-xs text-black hover:text-white bg-white hover:bg-black border-2 rounded-[5px] border-black text-center px-[12px] py-[5px]"
@@ -88,13 +88,14 @@ const Home = ({ projects, about, categories, demoReels }) => {
           >
             {toggle ? "Less Info" : "More Info"}
           </button>
-        </Field>
+        </Field> */}
         <DemoReels demoReels={demoReels}></DemoReels>
-        <ProjectCards
+        <FeaturedWork
           projects={projects}
           categories={categories}
-        ></ProjectCards>
-      </div>
+          setPage={setPage}
+        ></FeaturedWork>
+      {/* </div> */}
     </Layout>
   );
 };
@@ -132,11 +133,13 @@ const projectQuery = groq`*[_type == 'project']{
   _updatedAt,
   title,
   year,
+  date,
   slug,
+  isFeatured,
   "categories": categories[]->tag,
   thumbnail,
   images
-} | order(_updatedAt desc) | order(year desc)`;
+} | order(date desc)`;
 
 const aboutQuery = groq`*[_type == 'about']{
   title,

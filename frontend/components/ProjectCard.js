@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
 import { createClient } from "next-sanity";
 
@@ -15,9 +15,10 @@ const ProjectCard = ({
   categories,
   i,
   thumbnailRef,
-  setPage
+  setPage,
 }) => {
-  // thumbnail + project blur
+
+  // thumbnail
   const projectRef = useRef({});
   const viewProjectRef = useRef({});
   const cardRef = useRef({});
@@ -34,6 +35,7 @@ const ProjectCard = ({
     viewProjectRef.current[i].style.color = "var(--color-black)";
   };
 
+  // when a project card is clicked, set the page (category in Nav) to match the current project's category
   const matchPage = (i) => {
     projects[i].categories.map(
       (category) => (
@@ -67,12 +69,15 @@ const ProjectCard = ({
         <Info>
           <Field>
             <Label>Title</Label>
-            <h1 className="font-sans text-lg md:text-xl text-black md:col-span-4 xl:col-span-6">{title}</h1>
-            
+            <h1 className="font-sans text-lg md:text-xl text-black md:col-span-4 xl:col-span-6">
+              {title}
+            </h1>
           </Field>
           <Field>
             <Label>Year</Label>
-            <h2 className="font-sans text-md md:text-lg text-black md:col-span-4 xl:col-span-6">{year}</h2>
+            <h2 className="font-sans text-md md:text-lg text-black md:col-span-4 xl:col-span-6">
+              {year}
+            </h2>
           </Field>
           <Field>
             <Label>Category</Label>
@@ -87,13 +92,13 @@ const ProjectCard = ({
           </Field>
         </Info>
         <div className="sm:absolute sm:right-sm">
-              <button
-                ref={(element) => (viewProjectRef.current[i] = element)}
-                className="font-mono text-xs text-black border border-black whitespace-nowrap text-center px-[10px] py-[6px] mt-sm sm:mt-[0px]"
-              >
-                View Project
-              </button>
-            </div>
+          <button
+            ref={(element) => (viewProjectRef.current[i] = element)}
+            className="font-mono text-xs text-black border border-black whitespace-nowrap text-center px-[10px] py-[6px] mt-sm sm:mt-[0px]"
+          >
+            View Project
+          </button>
+        </div>
       </li>
     </Link>
   );

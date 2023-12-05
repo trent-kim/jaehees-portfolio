@@ -1,28 +1,13 @@
 // frontend/pages/index.js
 import React, { useState, useRef } from "react";
-import Link from "next/link";
 import groq from "groq";
-import { PortableText } from "@portabletext/react";
 import { createClient } from "next-sanity";
 
 import Layout from "../components/layout";
-import Field from "../components/Field";
-import Label from "../components/Label";
 import DemoReels from "../components/DemoReels2";
 import FeaturedWork from "../components/FeaturedWork";
 
 const Home = ({ projects, about, categories, demoReels, page, setPage }) => {
-  // toggle about
-  const bioRef = useRef(null);
-  const [toggle, setToggle] = useState(false);
-
-  const handleButton = () => {
-    setToggle(!toggle);
-
-    toggle
-      ? (bioRef.current.style.maxHeight = "0px")
-      : (bioRef.current.style.maxHeight = "800px");
-  };
 
   return (
     <Layout home about={about} page={page} setPage={setPage}>
@@ -32,7 +17,6 @@ const Home = ({ projects, about, categories, demoReels, page, setPage }) => {
           categories={categories}
           setPage={setPage}
         ></FeaturedWork>
-      {/* </div> */}
     </Layout>
   );
 };

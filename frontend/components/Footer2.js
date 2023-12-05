@@ -1,11 +1,6 @@
 import React from "react";
 import Link from "next/link";
 
-import Info from "@/components/Info";
-import Field from "@/components/Field";
-import Label from "@/components/Label";
-import { useEffect } from "react";
-
 const Footer = ({ about = [] }) => {
   return (
     <div className="bg-white border-t border-black flex flex-col sm:flex-row sm:fixed bottom-[0px] w-full z-30">
@@ -50,7 +45,7 @@ const Footer = ({ about = [] }) => {
         </div>
 
         <div className="font-mono text-xs pl-xs sm:pl-[0px]">
-          <Link target="_blank" rel="noreferrer" href="https://trentkim.com/">
+          <Link target="_blank" rel="noreferrer" href="https://trentkim.space/">
             Site Credit
           </Link>
         </div>

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import groq from "groq";
-import Link from "next/link";
 import Image from "next/image";
 import imageUrlBuilder from "@sanity/image-url";
 import { createClient } from "next-sanity";
@@ -10,50 +9,17 @@ import ProjectCard from "@/components/ProjectCard";
 
 import useMousePosition from "../hooks/useMousePosition";
 
-const Photography = ({ projects, about, categories, page, setPage }) => {
+const Photography = ({ projects, about, page, setPage }) => {
+  // mouse position used for thumbnails
   const { x, y } = useMousePosition();
 
-  // thumbnail + project blur
-  const projectRef = useRef({});
+  // thumbnail refs
   const thumbnailRef = useRef({});
-  const viewProjectRef = useRef({});
-  const [currentCategory, setCurrentCategory] = useState(null);
-
-  const setImage = (i) => {
-    thumbnailRef.current[i].style.top = "0";
-    viewProjectRef.current[i].style.background = "var(--color-black)";
-    viewProjectRef.current[i].style.color = "var(--color-white)";
-  };
-
-  const resetImage = (i) => {
-    thumbnailRef.current[i].style.top = "-100vh";
-    viewProjectRef.current[i].style.background = "var(--color-white)";
-    viewProjectRef.current[i].style.color = "var(--color-black)";
-  };
-
-  const cardRef = useRef({});
-
-  useEffect(() => {
-    let match = false;
-    currentCategory !== null &&
-      (currentCategory.innerText === "All"
-        ? projects.map(({}, l) => (cardRef.current[l].style.display = "block"))
-        : projects.map(({ categories }, l) => (
-            <>
-              {categories.map((category) =>
-                category === currentCategory.innerText
-                  ? ((cardRef.current[l].style.display = "block"),
-                    (match = true))
-                  : !match && (cardRef.current[l].style.display = "none")
-              )}
-              ;{(match = false)}
-            </>
-          )));
-  }, [projects, currentCategory]);
 
   return (
     <Layout about={about} page={page} setPage={setPage}>
-      <div id="projects" className="pt-[88px] sm:pt-[52px] sm:mb-[52px]">
+      <div className="pt-[88px] sm:pt-[52px] sm:mb-[52px]">
+        {/* Project Cards */}
         <div className="flex flex-col w-full">
           {projects.length > 0 &&
             projects.map(
@@ -77,13 +43,15 @@ const Photography = ({ projects, about, categories, page, setPage }) => {
                 )
             )}
         </div>
+        {/* / Project Cards */}
+        {/* Thumbnails */}
         <div
           style={{ left: `calc(${x}px + 42px)`, top: `${y}px` }}
           className="fixed top-md z-40 w-1/3 md:w-1/4 lg:w-1/6 xl:w-[calc((1/8)*100%)] h-full overflow-hidden"
         >
           <div className="relative align-bottom">
             <div className="relative bottom-[100%] left-[0px] "></div>
-            {projects.map(({ title, thumbnail, categories }, i) =>
+            {projects.map(({ thumbnail, categories }, i) =>
               categories.map(
                 (category) =>
                   category === "Photography" && (
@@ -105,6 +73,7 @@ const Photography = ({ projects, about, categories, page, setPage }) => {
             )}
           </div>
         </div>
+        {/* / Thumbnails */}
       </div>
     </Layout>
   );

@@ -17,9 +17,22 @@ import ProjectNav from "@/components/ProjectNav";
 const Project = ({ project, about = [], page, setPage, projects = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [length, setLength] = useState();
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const imageRef = useRef({});
+  const viewerImageRef = useRef({});
+  const viewerRef = useRef();
+
+  // open image viewer + set current index to image clicked
+  const openImageViewer = (i) => {
+    setIsViewerOpen(true);
+    setCurrentIndex(i);
+  };
+
+  // set translation for image viewer
   const [translation, setTranslation] = useState("0%");
 
   useEffect(() => {
+    // set length of images
     setLength(project?.images.length);
     if (currentIndex === 0) {
       setTranslation("0%");
@@ -28,6 +41,7 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
     }
   }, [project?.images.length, currentIndex]);
 
+  // image viewer previous and next
   const prev = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prevState) => prevState - 1);
@@ -43,54 +57,40 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
     }
   };
 
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const imageRef = useRef({});
-  const viewerImageRef = useRef({});
-  const viewerRef = useRef();
-
-  const openImageViewer = (i) => {
-    setIsViewerOpen(true);
-    setCurrentImage(i);
-    setCurrentIndex(i);
-  };
-
-  useEffect(() => {
-    // console.log("test:", viewerImageRef.current[currentImage], isViewerOpen);
-    isViewerOpen &&
-      (viewerImageRef.current[currentImage].style.visibility = "visible");
-  }, [currentImage, viewerImageRef, isViewerOpen]);
-
+  // close image viewer
   const closeImageViewer = () => {
-    setCurrentImage(0);
     setIsViewerOpen(false);
   };
-
-  
 
   return (
     <Layout about={about} page={page} setPage={setPage}>
       <Head>
         <title>{project?.title}</title>
       </Head>
+      {/* Image Viewer */}
       {isViewerOpen && (
         <div
           ref={viewerRef}
           className={`fixed w-full h-full inset-0 border z-40 flex justify-center items-center backdrop-blur-sm animate-fade  
             `}
         >
+          {/* Background */}
           <div className="bg-black opacity-[0.97] fixed w-full h-full inset-0"></div>
-          <div
-            className="font-mono text-xs text-white fixed top-sm left-sm z-50"
-          >
+          {/* / Background */}
+          {/* Index */}
+          <div className="font-mono text-xs text-white fixed top-sm left-sm z-50">
             {currentIndex + 1} of {project?.images.length}
           </div>
+          {/* / Index */}
+          {/* Close */}
           <div
             className="font-mono text-xs text-white hover:text-red fixed top-sm right-sm underline hover:cursor-pointer z-50"
             onClick={() => closeImageViewer()}
           >
             Close
           </div>
+          {/* / Close */}
+          {/* Prev + Next */}
           <div
             onClick={prev}
             className="font-mono text-xs text-white hover:text-red fixed bottom-sm left-sm underline hover:cursor-pointer z-50"
@@ -103,6 +103,8 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
           >
             Next
           </div>
+          {/* / Prev + Next */}
+          {/* Images */}
           <div className="relative min-w-full min-h-full ">
             <div
               className="absolute transition-all duration-500 ease-[cubic-bezier(.23,1,.32,1)] h-full flex"
@@ -128,29 +130,35 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
                 ))}
             </div>
           </div>
-          {/* </div> */}
+          {/* / Images */}
         </div>
       )}
+      {/* / Image Viewer */}
+
       <div className="mt-[88px] md:mt-[52px] justify-between items-center border-b border-black px-sm py-xs z-[20] w-full bg-white fixed">
         <ProjectNav
           project={project}
           projects={projects}
           currentSlug={project?.slug}
           page={page}
-          // filteredProjects={filteredProjects}
         ></ProjectNav>
       </div>
       <div className="h-[138px] md:h-[113px]"></div>
+      {/* Project Info */}
       <div className=" px-sm py-sm gap-sm w-full border-b">
-        <div className="w-full lg:w-full">
+        <div className="w-full">
           <Info>
             <Field>
               <Label>Title</Label>
-              <h1 className="font-sans text-lg md:text-xl text-black col-span-4">{project?.title}</h1>
+              <h1 className="font-sans text-lg md:text-xl text-black col-span-4">
+                {project?.title}
+              </h1>
             </Field>
             <Field>
               <Label>Year</Label>
-              <h2 className="font-sans text-md md:text-lg text-black col-span-4">{project?.year}</h2>
+              <h2 className="font-sans text-md md:text-lg text-black col-span-4">
+                {project?.year}
+              </h2>
             </Field>
             <Field>
               <Label>Category</Label>
@@ -178,6 +186,8 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
           </Info>
         </div>
       </div>
+      {/* / Project Info */}
+      {/* Video */}
       {project?.playbackId && (
         <div className="w-full mb-[-6.5px]">
           <MuxPlayer
@@ -188,13 +198,18 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
           />
         </div>
       )}
+      {/* / Video */}
+      {/* Recognition */}
       {project?.laurels && (
         <div>
+          {/* Header */}
           <div className="w-full flex px-sm py-xs sticky top-[138px] md:top-[103px] border-y border-black bg-white">
             <div className="font-mono text-xs text-black text-center py-[8px]">
               Recognition
             </div>
           </div>
+          {/* / Header */}
+          {/* Laurels */}
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 xl:grid-cols-16 gap-sm p-sm">
             {project?.laurels.map((image) => (
               <div key={image._key} className="col-span-1 flex items-center">
@@ -208,18 +223,28 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
               </div>
             ))}
           </div>
+          {/* / Laurels */}
         </div>
       )}
+      {/* / Recognition */}
+      {/* Images */}
+      {/* Header (only for Film + Animation) */}
       {project?.categories.map((category, i) =>
         category === "Film" ? (
-          <div key={i} className="w-full flex px-sm py-xs sticky top-[138px] md:top-[103px] border-y border-black bg-white">
+          <div
+            key={i}
+            className="w-full flex px-sm py-xs sticky top-[138px] md:top-[103px] border-y border-black bg-white"
+          >
             <div className="font-mono text-xs text-black text-center py-[8px]">
               Stills
             </div>
           </div>
         ) : (
           category === "Animation" && (
-            <div key={i} className="w-full flex px-sm py-xs sticky top-[138px] md:top-[103px] border-y border-black bg-white">
+            <div
+              key={i}
+              className="w-full flex px-sm py-xs sticky top-[138px] md:top-[103px] border-y border-black bg-white"
+            >
               <div className="font-mono text-xs text-black text-center py-[8px]">
                 Stills
               </div>
@@ -227,7 +252,7 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
           )
         )
       )}
-
+      {/* / Header (only for Film + Animation) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-sm p-sm md:mb-[52px]">
         {project?.images &&
           project?.images.map((image, i) => (
@@ -244,6 +269,7 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
             </div>
           ))}
       </div>
+      {/* / Images */}
     </Layout>
   );
 };

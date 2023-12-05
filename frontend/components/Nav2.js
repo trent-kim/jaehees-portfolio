@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect} from "react";
+import React, { useRef, useEffect} from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 const Nav = ({ page, setPage }) => {
-  const [isHover, setIsHover] = useState(false);
   const pageRef = useRef([]);
 
+  // array of page names
   const pages = ["film", "animation", "photography", "info"]
   
+  // capitalize page names for frontend
   const capitalize = (str) => {
     return str
       .toLowerCase()
@@ -16,16 +16,18 @@ const Nav = ({ page, setPage }) => {
       .join(' ');
   };
 
-useEffect(() => {
-if (page != null) {
-    pageRef.current[page].style.color = "var(--color-white)"
-    pageRef.current[page].style.background = "var(--color-black)"
-}
-}, [page, pageRef] )
+  // if page is not null, then change state of the current page's button
+  useEffect(() => {
+  if (page != null) {
+      pageRef.current[page].style.color = "var(--color-white)"
+      pageRef.current[page].style.background = "var(--color-black)"
+  }
+  }, [page, pageRef] )
 
 
   return (
     <nav className="md:grid md:grid-cols-6 xl:grid-cols-8 fixed items-center z-30 w-full bg-white border-b border-black px-sm py-xs">
+      {/* Home */}
       <div className="col-span-1">
         <Link
           href="/"
@@ -39,6 +41,8 @@ if (page != null) {
           Jaehee Cheong
         </Link>
       </div>
+      {/* / Home */}
+      {/* Page Buttons */}
       <div className="flex mt-xs md:mt-[0px]">
         {pages.map((i) => (
             <Link href={`/${i}`} key={i}>
@@ -54,6 +58,7 @@ if (page != null) {
         </Link>
         ))}
       </div>
+      {/* / Page Buttons */}
     </nav>
   );
 };

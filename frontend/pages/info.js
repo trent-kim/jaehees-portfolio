@@ -92,7 +92,7 @@ const About = ({ about, page, setPage }) => {
               <div className="font-sans text-xs md:text-sm text-black md:col-span-5 lg:col-span-2 xl:col-span-3">
                 {about[0].education?.map((school) => (
                   school?.url ? (
-                  <div key={school.url}>
+                  <div key={school.url} className="pb-xs">
                     <Link
                       target="_blank"
                       rel="noreferrer"
@@ -106,7 +106,7 @@ const About = ({ about, page, setPage }) => {
                     {school.degree}, {school.year}
                   </div>
                   ):(
-                  <div key={school.url}>
+                  <div key={school.url} className="pb-xs">
                     {school.name}
                     ,&nbsp;
                     <br></br>

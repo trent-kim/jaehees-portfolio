@@ -1,5 +1,5 @@
 // ./frontend/pages/project/[slug].js
-import React, { useState, useEffect, useRef, use } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import groq from "groq";
 import imageUrlBuilder from "@sanity/image-url";
 import Head from "next/head";
@@ -253,7 +253,7 @@ const Project = ({ project, about = [], page, setPage, projects = [] }) => {
         )
       )}
       {/* / Header (only for Film + Animation) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-sm p-sm md:mb-[52px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-sm p-sm">
         {project?.images &&
           project?.images.map((image, i) => (
             <div key={i} className="col-span-1 flex items-start">

@@ -91,6 +91,7 @@ const About = ({ about, page, setPage }) => {
               <Label>Education</Label>
               <div className="font-sans text-xs md:text-sm text-black md:col-span-5 lg:col-span-2 xl:col-span-3">
                 {about[0].education?.map((school) => (
+                  school?.url ? (
                   <div key={school.url}>
                     <Link
                       target="_blank"
@@ -104,6 +105,14 @@ const About = ({ about, page, setPage }) => {
                     <br></br>
                     {school.degree}, {school.year}
                   </div>
+                  ):(
+                  <div key={school.url}>
+                    {school.name}
+                    ,&nbsp;
+                    <br></br>
+                    {school.degree}, {school.year}
+                  </div>
+                  )
                 ))}
               </div>
             </div>

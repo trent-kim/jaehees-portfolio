@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState, useEffect }  from "react";
 import Link from "next/link";
 
 const Footer = ({ about = [] }) => {
+
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const controlNavbar = () => {
+    if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
+      setShow(false); 
+    } else { // if scroll up show the navbar
+      setShow(true);  
+    }
+
+    // remember current page location to use in the next move
+    setLastScrollY(window.scrollY); 
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', controlNavbar);
+
+    // cleanup function
+    return () => {
+       window.removeEventListener('scroll', controlNavbar);
+    };
+  }, [lastScrollY]);
+
   return (
-    <div className="bg-white border-t border-black flex flex-col sm:flex-row sm:fixed bottom-[0px] w-full z-30">
+    <div className={`${show ? 'bottom-[0px]' : 'bottom-[-80px]'} transition-bottom duration-500  ease-[cubic-bezier(.23,1,.32,1)] bg-white border-t border-black flex flex-col sm:flex-row sm:fixed bottom-[0px] w-full z-30`}>
       <div className="w-full sm:w-1/2 px-sm py-xs order-last sm:order-first">
         <div className="font-mono text-xs text-black w-[128px]">
           Copyright &#169; 2023

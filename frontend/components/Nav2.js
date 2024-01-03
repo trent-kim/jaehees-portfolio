@@ -32,8 +32,6 @@ const Nav = ({ page, setPage }) => {
         <Link
           href="/"
           className="font-mono text-xs text-black hover:text-red bg-white rounded-[0px] text-center py-[6px]"
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
           onClick={() => {
             setPage(null);
           }}

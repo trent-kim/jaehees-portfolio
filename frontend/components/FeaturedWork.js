@@ -15,7 +15,7 @@ const FeaturedWork = ({ projects, setPage }) => {
   const thumbnailRef = useRef({});
 
   return (
-    <div id="projects" className="mt-[-6.5px] sm:mb-[52px]">
+    <div id="projects" className="mt-[-6.5px]">
       {/* Header */}
       <div className="w-full flex px-sm py-xs sticky top-[88px] md:top-[52px] border-y border-black bg-white z-20">
         <div className="font-mono text-xs text-black text-center py-[8px]">

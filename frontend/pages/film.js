@@ -18,7 +18,7 @@ const Film = ({ projects, about, page, setPage }) => {
 
   return (
     <Layout about={about} page={page} setPage={setPage}>
-      <div className=" pt-[88px] sm:pt-[52px] sm:mb-[52px]">
+      <div className=" pt-[88px] sm:pt-[52px]">
         {/* Project Cards */}
         <div className="flex flex-col w-full">
           {projects.length > 0 &&
